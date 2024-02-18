@@ -1,0 +1,12 @@
+basePath: /
+host: localhost:8080
+info:
+  contact:
+    email: faridsadreddinov@yandex.ru
+    name: Фарид
+    url: https://t.me/M00nfI0wer
+  description: Это простой распределенный калькулятор.
+  title: Distributed Calculator
+  version: "1.0"
+paths: {}
+swagger: "2.0"

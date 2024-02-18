@@ -1,0 +1,16 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Это простой распределенный калькулятор.",
+        "title": "Distributed Calculator",
+        "contact": {
+            "name": "Фарид",
+            "url": "https://t.me/M00nfI0wer",
+            "email": "faridsadreddinov@yandex.ru"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {}
+}
