@@ -4,7 +4,6 @@ import (
 	"context"
 	"os"
 	"os/signal"
-	"path/filepath"
 	"syscall"
 
 	"github.com/joho/godotenv"
@@ -26,14 +25,13 @@ import (
 
 // @host      localhost:8080
 // @BasePath  /
-
 func main() {
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 
 	if err := initconfig(); err != nil {
 		logrus.Fatalf("error initializing configs: %s", err.Error())
 	}
-	if err := godotenv.Load(filepath.Join("..\\", ".env")); err != nil {
+	if err := godotenv.Load(); err != nil {
 		logrus.Fatalf("error loading env variables: %s", err.Error())
 	}
 
@@ -72,7 +70,7 @@ func main() {
 }
 
 func initconfig() error {
-	viper.AddConfigPath("..\\configs")
+	viper.AddConfigPath("configs")
 	viper.SetConfigName("config")
 	return viper.ReadInConfig()
 }

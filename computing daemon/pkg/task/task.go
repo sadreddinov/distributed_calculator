@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -27,7 +26,7 @@ var InputChan = make(chan models.Calculation, Num_of_goroutines)
 var Out *OutputChan
 
 func init() {
-	if err := godotenv.Load(filepath.Join("..\\", "\\.env")); err != nil {
+	if err := godotenv.Load(); err != nil {
 		logrus.Fatalf("error loading env variables: %s", err.Error())
 	}
 	EnvNum = os.Getenv("NumOfGoroutine")
@@ -45,7 +44,7 @@ type OutputChan struct {
 func GetTask(num int) bool {
 	id := os.Getenv("UUID")
 	task_url := viper.GetString("orchestrator.get_task_url")+"/" + id
-	fmt.Println(task_url)
+
 	register_req, _ := http.NewRequest("GET", task_url, nil)
 	client := &http.Client{}
 	resp, err := client.Do(register_req)

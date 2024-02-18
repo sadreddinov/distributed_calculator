@@ -21,7 +21,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	expressions := router.Group("/expressions", h.OperationTime)
 	{
-		expressions.GET("/", h.GetExpressions())
+		expressions.GET("/", h.GetExpressions)
 		expressions.GET("/:id", h.GetExpression())
 		expressions.POST("/", h.CreateExpression())
 	}

@@ -8,17 +8,18 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+
+//  GetComputingResources godoc
 // @Summary      Get computing resources
 // @Description  Get computing resources
 // @Tags         computing resources
 // @Accept       json
 // @Produce      json
-// @Success      200  {array}  models.Computing_resource
+// @Success      200  {array}  models.ComputingResource
 // @Failure      400  {object}  string
 // @Failure      404  {object}  string
 // @Failure      500  {object}  string
 // @Router       /computing_resources/ [get]
-
 func (h *Handler) GetComputingResources() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		agents, err := h.services.ComputingResource.GetComputingResources()

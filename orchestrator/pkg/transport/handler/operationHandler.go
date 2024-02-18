@@ -8,6 +8,8 @@ import (
 	"github.com/sadreddinov/distributed_calculator/orchestrator/pkg/models"
 )
 
+
+// GetOperations godoc
 // @Summary      Get time of operations
 // @Description  Get time of operations in seconds
 // @Tags         operations
@@ -15,7 +17,6 @@ import (
 // @Produce      json
 // @Success      200  {array}  models.Operation
 // @Router       /operations/ [get]
-
 func (h *Handler) GetOperations() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var operations models.Operation
@@ -27,6 +28,8 @@ func (h *Handler) GetOperations() gin.HandlerFunc {
 	}
 }
 
+
+// UpdateOperations godoc
 // @Summary      Update operation time
 // @Description  Update operation time
 // @Tags         operations
@@ -34,11 +37,10 @@ func (h *Handler) GetOperations() gin.HandlerFunc {
 // @Produce      json
 // @Param        operations   body      models.Operation  true  "Time of operations"
 // @Success      200  {object}  models.Operation
-// @Failure      400  {object}  map{string}string
-// @Failure      404  {object}  map{string}string
-// @Failure      500  {object}  map{string}string
+// @Failure      400  {object}  map[string]string
+// @Failure      404  {object}  map[string]string
+// @Failure      500  {object}  map[string]string
 // @Router       /expression/ [patch]
-
 func (h *Handler) UpdateOperations() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var operations models.Operation

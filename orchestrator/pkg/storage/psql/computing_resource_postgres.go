@@ -97,8 +97,8 @@ func (r *ComputingResourcePostgres) ShutdownComputingResource(agent models.Compu
 	setQuery := fmt.Sprintf("work_state=$%d", 1)
 	query := fmt.Sprintf("UPDATE %s SET %s WHERE id = $2", computingResourceTable, setQuery)
 	_, err := r.db.Exec(context.TODO(), query, agent.Work_state, agent.Id)
-	query = fmt.Sprintf("SELECT id FROM %s WHERE computing_resource_id = $1 ", expressionTable)
-	rows, err := r.db.Query(context.TODO(), query, agent.Id)
+	query = fmt.Sprintf("SELECT id FROM %s WHERE computing_resource_id = $1 and work_state = $2", expressionTable)
+	rows, err := r.db.Query(context.TODO(), query, agent.Id, "calculating")
 	if err != nil {
 		return err
 	}

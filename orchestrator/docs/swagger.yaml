@@ -1,4 +1,42 @@
 basePath: /
+definitions:
+  models.ComputingResource:
+    properties:
+      id:
+        type: string
+      last_ping_at:
+        type: string
+      work_state:
+        type: string
+    type: object
+  models.Expression:
+    type: object
+  models.ExpressionToRead:
+    properties:
+      created_at:
+        type: string
+      expression:
+        type: string
+      id:
+        type: string
+      result:
+        type: string
+      solved_at:
+        type: string
+      work_state:
+        type: string
+    type: object
+  models.Operation:
+    properties:
+      divide:
+        type: string
+      minus:
+        type: string
+      multiply:
+        type: string
+      plus:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -8,5 +46,215 @@ info:
   description: Это простой распределенный калькулятор.
   title: Distributed Calculator
   version: "1.0"
-paths: {}
+paths:
+  /computing_resources/:
+    get:
+      consumes:
+      - application/json
+      description: Get computing resources
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ComputingResource'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get computing resources
+      tags:
+      - computing resources
+  /expression/:
+    patch:
+      consumes:
+      - application/json
+      description: Update operation time
+      parameters:
+      - description: Time of operations
+        in: body
+        name: operations
+        required: true
+        schema:
+          $ref: '#/definitions/models.Operation'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Operation'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update operation time
+      tags:
+      - operations
+  /expressions/:
+    get:
+      consumes:
+      - application/json
+      description: Get expressions
+      parameters:
+      - description: Page num
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: Num of record per page
+        in: query
+        name: recordPerPage
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.ExpressionToRead'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get expressions
+      tags:
+      - expressions
+    post:
+      consumes:
+      - application/json
+      description: Add new expression
+      parameters:
+      - description: Expression info
+        in: body
+        name: expression
+        required: true
+        schema:
+          $ref: '#/definitions/models.Expression'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Add expression
+      tags:
+      - expressions
+  /expressions/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get expression by id
+      parameters:
+      - description: Expression ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ExpressionToRead'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get expression
+      tags:
+      - expressions
+  /operations/:
+    get:
+      consumes:
+      - application/json
+      description: Get time of operations in seconds
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Operation'
+            type: array
+      summary: Get time of operations
+      tags:
+      - operations
 swagger: "2.0"
