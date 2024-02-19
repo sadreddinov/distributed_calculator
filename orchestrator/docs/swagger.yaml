@@ -51,7 +51,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get computing resources
+      description: Get info about computing resources
       produces:
       - application/json
       responses:
@@ -80,7 +80,7 @@ paths:
     patch:
       consumes:
       - application/json
-      description: Update operation time
+      description: Update time of operations in seconds
       parameters:
       - description: Time of operations
         in: body

@@ -11,7 +11,7 @@ import (
 
 //  GetComputingResources godoc
 // @Summary      Get computing resources
-// @Description  Get computing resources
+// @Description  Get info about computing resources
 // @Tags         computing resources
 // @Accept       json
 // @Produce      json

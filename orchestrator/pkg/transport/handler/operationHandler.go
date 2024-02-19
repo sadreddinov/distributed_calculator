@@ -31,7 +31,7 @@ func (h *Handler) GetOperations() gin.HandlerFunc {
 
 // UpdateOperations godoc
 // @Summary      Update operation time
-// @Description  Update operation time
+// @Description  Update time of operations in seconds
 // @Tags         operations
 // @Accept       json
 // @Produce      json

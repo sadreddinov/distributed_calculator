@@ -21,7 +21,7 @@ const docTemplate = `{
     "paths": {
         "/computing_resources/": {
             "get": {
-                "description": "Get computing resources",
+                "description": "Get info about computing resources",
                 "consumes": [
                     "application/json"
                 ],
@@ -65,7 +65,7 @@ const docTemplate = `{
         },
         "/expression/": {
             "patch": {
-                "description": "Update operation time",
+                "description": "Update time of operations in seconds",
                 "consumes": [
                     "application/json"
                 ],
