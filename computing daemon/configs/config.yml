@@ -4,4 +4,3 @@ orchestrator:
   get_task_url: "http://localhost:8080/task"
   post_result_url: "http://localhost:8080/task"
   shutdown_url: "http://localhost:8080/computing_resources/shutdown"
-UUID: "ca0a9224-21f8-49c1-95b5-7ff887e081b9"
