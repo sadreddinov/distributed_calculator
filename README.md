@@ -1,8 +1,9 @@
 # Distributed calculator
 [![N|Telegram](https://img.icons8.com/fluency/24/telegram-app.png)](https://t.me/M00nfI0wer)
 
+
 В этом проекте я реализовал распределенный калькулятор с использованием Golang. Идея заключается в том, чтобы отправлять агентам выражения. А те в свою очередь, разбивают их на простейшие математические выражения и направляют на вычислительные центры. Они выполняют математические вычисления и отправляют обратно агенту, который компонует ответ выражения и возвращает результат клиенту. На рисунке ниже показано, как это работает.
-![Image alt](https://github.com/sadreddinov/calculator/blob/main/структура.png)
+![Image alt](https://github.com/sadreddinov/calculator/master/структура.png)
 ## Как его запустить?
 #### Оркестратор
 Настроить подключение к БД. Редактировать в configs/ файл config.yml.
@@ -43,5 +44,5 @@ go run .\cmd\main.go
 ## Тестирование
 Для данного проекта я задокументировал API с помощью Swagger в swagger.json. А благодаря Swagger UI, которая реализована по end-pointу /swagger/index.html можно тестировать и отпралять различный запросы  оркестратору.
 Также можно тестировать с помощью Postman по следующим end-pointам
-![Image alt](https://github.com/sadreddinov/calculator/blob/main/схема.png)
+![Image alt](https://github.com/sadreddinov/calculator/master/схема.png)
 
