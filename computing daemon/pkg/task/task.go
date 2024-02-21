@@ -118,17 +118,17 @@ func parsePrefixExpression(expression string, operations models.Operation, num i
 			switch token {
 			case "+":
 				fmt.Println(operand1, "+", operand2)
-				calc := &models.Calculation{Operation: "+", Num1: operand1, Num2: operand2, OperationTime: operations.Plus, TaskNum: i}
+				calc := &models.Calculation{Operation: "+", Num1: operand1, Num2: operand2, OperationTime: operations.Plus, TaskNum: num}
 				InputChan <- *calc
 				result = <-Out.Chans[num]
 			case "-":
 				fmt.Println(operand1, "-", operand2)
-				calc := &models.Calculation{Operation: "-", Num1: operand1, Num2: operand2, OperationTime: operations.Minus, TaskNum: i}
+				calc := &models.Calculation{Operation: "-", Num1: operand1, Num2: operand2, OperationTime: operations.Minus, TaskNum: num}
 				InputChan <- *calc
 				result = <-Out.Chans[num]
 			case "*":
 				fmt.Println(operand1, "*", operand2)
-				calc := &models.Calculation{Operation: "*", Num1: operand1, Num2: operand2, OperationTime: operations.Multiply, TaskNum: i}
+				calc := &models.Calculation{Operation: "*", Num1: operand1, Num2: operand2, OperationTime: operations.Multiply, TaskNum: num}
 				InputChan <- *calc
 				result = <-Out.Chans[num]
 			case "/":
@@ -136,7 +136,7 @@ func parsePrefixExpression(expression string, operations models.Operation, num i
 					return 0, fmt.Errorf("cannot divide by zero")
 				}
 				fmt.Println(operand1, "/", operand2)
-				calc := &models.Calculation{Operation: "/", Num1: operand1, Num2: operand2, OperationTime: operations.Divide, TaskNum: i}
+				calc := &models.Calculation{Operation: "/", Num1: operand1, Num2: operand2, OperationTime: operations.Divide, TaskNum: num}
 				InputChan <- *calc
 				result = <-Out.Chans[num]
 			}

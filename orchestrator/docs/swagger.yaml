@@ -76,46 +76,6 @@ paths:
       summary: Get computing resources
       tags:
       - computing resources
-  /expression/:
-    patch:
-      consumes:
-      - application/json
-      description: Update time of operations in seconds
-      parameters:
-      - description: Time of operations
-        in: body
-        name: operations
-        required: true
-        schema:
-          $ref: '#/definitions/models.Operation'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Operation'
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Update operation time
-      tags:
-      - operations
   /expressions/:
     get:
       consumes:
@@ -211,7 +171,7 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -255,6 +215,45 @@ paths:
               $ref: '#/definitions/models.Operation'
             type: array
       summary: Get time of operations
+      tags:
+      - operations
+    patch:
+      consumes:
+      - application/json
+      description: Update time of operations in seconds
+      parameters:
+      - description: Time of operations
+        in: body
+        name: operations
+        required: true
+        schema:
+          $ref: '#/definitions/models.Operation'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Operation'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update operation time
       tags:
       - operations
 swagger: "2.0"

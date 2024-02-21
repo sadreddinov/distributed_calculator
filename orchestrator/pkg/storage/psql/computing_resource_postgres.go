@@ -26,8 +26,9 @@ func (r *ComputingResourcePostgres) CreateComputingResource(agent models.Computi
 	row := r.db.QueryRow(context.TODO(), query, agent.Id)
 	if err := row.Scan(&old_agent.Id, &old_agent.Work_state, &old_agent.LastPing_at); err == pgx.ErrNoRows {
 		var id uuid.UUID
+		agent.Work_state = "is_working"
 		agent.LastPing_at, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
-		query := fmt.Sprintf("INSERT INTO %s (id, work_state,last_ping_at) VALUES ($1, $2, $3) RETURNING id", computingResourceTable)
+		query := fmt.Sprintf("INSERT INTO %s (id, work_state, last_ping_at) VALUES ($1, $2, $3) RETURNING id", computingResourceTable)
 		row := r.db.QueryRow(context.TODO(), query, agent.Id, agent.Work_state, agent.LastPing_at)
 		if err := row.Scan(&id); err != nil {
 			return uuid.UUID{}, err
@@ -73,7 +74,7 @@ func (r *ComputingResourcePostgres) GetComputingResources() ([]models.ComputingR
 		if err != nil {
 			return nil, err
 		}
-		if agent.LastPing_at.Add(10*time.Minute).After(time.Now()) {
+		if !agent.LastPing_at.Add(10 * time.Minute).After(time.Now()) {
 			agent.Work_state = "lost_connection"
 			setQuery := fmt.Sprintf("work_state=$%d", 1)
 			query := fmt.Sprintf("UPDATE %s SET %s WHERE id = $2", computingResourceTable, setQuery)
@@ -85,15 +86,26 @@ func (r *ComputingResourcePostgres) GetComputingResources() ([]models.ComputingR
 }
 
 func (r *ComputingResourcePostgres) UpdateComputingResource(agent models.ComputingResource) error {
-	ping_time, _ := time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
-	setQuery := fmt.Sprintf("last_ping_at=$%d", 1)
+	setValues := make([]string, 0)
+	args := make([]interface{}, 0)
+	argId := 1
 
-	query := fmt.Sprintf("UPDATE %s SET %s WHERE id = $2", computingResourceTable, setQuery)
-	_, err := r.db.Exec(context.TODO(), query, ping_time, agent.Id)
+	setValues = append(setValues, fmt.Sprintf("work_state=$%d", argId))
+	args = append(args, "is_working")
+	argId++
+
+	ping_time, _ := time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+	setValues = append(setValues, fmt.Sprintf("last_ping_at=$%d", argId))
+	args = append(args, ping_time)
+	argId++
+	setQuery := strings.Join(setValues, ",")
+	args = append(args, agent.Id)
+	query := fmt.Sprintf("UPDATE %s SET %s WHERE id = $%d", computingResourceTable, setQuery, argId)
+	_, err := r.db.Exec(context.TODO(), query, args...)
 	return err
 }
 
-func (r *ComputingResourcePostgres) ShutdownComputingResource(agent models.ComputingResource) (error) {
+func (r *ComputingResourcePostgres) ShutdownComputingResource(agent models.ComputingResource) error {
 	setQuery := fmt.Sprintf("work_state=$%d", 1)
 	query := fmt.Sprintf("UPDATE %s SET %s WHERE id = $2", computingResourceTable, setQuery)
 	_, err := r.db.Exec(context.TODO(), query, agent.Work_state, agent.Id)
@@ -117,7 +129,7 @@ func (r *ComputingResourcePostgres) ShutdownComputingResource(agent models.Compu
 		argId++
 
 		setValues = append(setValues, fmt.Sprintf("computing_resource_id=$%d", argId))
-		id, _ :=uuid.Parse("00000000-0000-0000-0000-000000000000")
+		id, _ := uuid.Parse("00000000-0000-0000-0000-000000000000")
 		args = append(args, id)
 		argId++
 

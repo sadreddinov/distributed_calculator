@@ -24,7 +24,7 @@ func main() {
 	go func(models.Agent) {
 		for {
 			select {
-			case <-time.Tick(5 * time.Minute):
+			case <-time.Tick(10 * time.Second):
 				utils.Ping(agent)
 			}
 		}

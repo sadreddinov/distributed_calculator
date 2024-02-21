@@ -40,7 +40,7 @@ func (h *Handler) GetOperations() gin.HandlerFunc {
 // @Failure      400  {object}  map[string]string
 // @Failure      404  {object}  map[string]string
 // @Failure      500  {object}  map[string]string
-// @Router       /expression/ [patch]
+// @Router       /operations/ [patch]
 func (h *Handler) UpdateOperations() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var operations models.Operation

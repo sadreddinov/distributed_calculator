@@ -52,7 +52,7 @@ func (h *Handler) GetExpressions(c *gin.Context) {
 // @Tags         expressions
 // @Accept       json
 // @Produce      json
-// @Param        id   path      int  true  "Expression ID"
+// @Param        id   path      string  true  "Expression ID"
 // @Success      200  {object}  models.ExpressionToRead
 // @Failure      400  {object}  map[string]string
 // @Failure      404  {object}  map[string]string
