@@ -167,9 +167,11 @@ func NewOutputChan() *OutputChan {
 }
 
 func PostResult(result models.Expression, err error) {
+	fmt.Println(err.Error())
 	if err != nil {
 		newBuf := new(bytes.Buffer)
-		json.NewEncoder(newBuf).Encode(err.Error())
+		result.Result = err.Error()
+		json.NewEncoder(newBuf).Encode(result)
 
 		post_result_url := viper.GetString("orchestrator.post_result_url")
 
