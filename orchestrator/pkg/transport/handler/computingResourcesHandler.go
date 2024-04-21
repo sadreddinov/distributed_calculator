@@ -16,9 +16,9 @@ import (
 // @Accept       json
 // @Produce      json
 // @Success      200  {array}  models.ComputingResource
-// @Failure      400  {object}  string
-// @Failure      404  {object}  string
-// @Failure      500  {object}  string
+// @Failure      400  {object}  map[string]string
+// @Failure      404  {object}  map[string]string
+// @Failure      500  {object}  map[string]string
 // @Router       /computing_resources/ [get]
 func (h *Handler) GetComputingResources() gin.HandlerFunc {
 	return func(c *gin.Context) {

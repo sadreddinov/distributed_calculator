@@ -19,14 +19,20 @@ func NewHandler(services *service.Service) *Handler {
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
-	expressions := router.Group("/expressions", h.OperationTime)
+	auth := router.Group("/auth")
+	{
+		auth.POST("/sign-up", h.signUp())
+		auth.POST("/sign-in", h.signIn())
+	}
+
+	expressions := router.Group("/expressions", h.OperationTime, h.userIndentity)
 	{
 		expressions.GET("/", h.GetExpressions)
 		expressions.GET("/:id", h.GetExpression())
 		expressions.POST("/", h.CreateExpression())
 	}
 
-	operations := router.Group("/operations", h.OperationTime)
+	operations := router.Group("/operations", h.OperationTime, h.userIndentity)
 	{
 		operations.GET("/", h.GetOperations())
 		operations.PATCH("/", h.UpdateOperations())

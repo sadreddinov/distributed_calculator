@@ -167,7 +167,6 @@ func NewOutputChan() *OutputChan {
 }
 
 func PostResult(result models.Expression, err error) {
-	fmt.Println(err.Error())
 	if err != nil {
 		newBuf := new(bytes.Buffer)
 		result.Result = err.Error()

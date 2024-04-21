@@ -1,5 +1,15 @@
 basePath: /
 definitions:
+  handler.signInInput:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
   models.ComputingResource:
     properties:
       id:
@@ -9,7 +19,10 @@ definitions:
       work_state:
         type: string
     type: object
-  models.Expression:
+  models.ExpressionFromUser:
+    properties:
+      expression:
+        type: string
     type: object
   models.ExpressionToRead:
     properties:
@@ -37,6 +50,19 @@ definitions:
       plus:
         type: string
     type: object
+  models.User:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - name
+    - password
+    - username
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -47,6 +73,90 @@ info:
   title: Distributed Calculator
   version: "1.0"
 paths:
+  /auth/sign-in:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: credentials
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/handler.signInInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: token
+          schema:
+            items:
+              type: string
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Sign in
+      tags:
+      - auth
+  /auth/sign-up:
+    post:
+      consumes:
+      - application/json
+      description: Create accout
+      parameters:
+      - description: User info
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: integer
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Sign up
+      tags:
+      - auth
   /computing_resources/:
     get:
       consumes:
@@ -64,15 +174,21 @@ paths:
         "400":
           description: Bad Request
           schema:
-            type: string
+            additionalProperties:
+              type: string
+            type: object
         "404":
           description: Not Found
           schema:
-            type: string
+            additionalProperties:
+              type: string
+            type: object
         "500":
           description: Internal Server Error
           schema:
-            type: string
+            additionalProperties:
+              type: string
+            type: object
       summary: Get computing resources
       tags:
       - computing resources
@@ -119,6 +235,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Get expressions
       tags:
       - expressions
@@ -132,7 +250,7 @@ paths:
         name: expression
         required: true
         schema:
-          $ref: '#/definitions/models.Expression'
+          $ref: '#/definitions/models.ExpressionFromUser'
       produces:
       - application/json
       responses:
@@ -158,6 +276,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Add expression
       tags:
       - expressions
@@ -197,6 +317,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Get expression
       tags:
       - expressions
@@ -214,6 +336,8 @@ paths:
             items:
               $ref: '#/definitions/models.Operation'
             type: array
+      security:
+      - ApiKeyAuth: []
       summary: Get time of operations
       tags:
       - operations
@@ -253,7 +377,14 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - ApiKeyAuth: []
       summary: Update operation time
       tags:
       - operations
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

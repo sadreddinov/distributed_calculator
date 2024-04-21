@@ -1,3 +1,11 @@
+CREATE TABLE IF NOT EXISTS users 
+(
+    id serial not null unique,
+    name varchar(255) not null,
+    username varchar(255) not null unique,
+    password_hash varchar(255) not  null
+);
+
 CREATE TABLE IF NOT EXISTS expression 
 (
     id uuid Default gen_random_uuid(),
@@ -6,6 +14,7 @@ CREATE TABLE IF NOT EXISTS expression
     created_at timestamp with time zone not null,
     solved_at timestamp with time zone,
     work_state varchar(255),
+    user_id int references users (id) on delete cascade not null,
     computing_resource_id uuid Default gen_random_uuid()
 );
 

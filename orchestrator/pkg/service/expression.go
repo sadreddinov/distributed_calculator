@@ -14,14 +14,14 @@ func NewExpressionService(repo psql.Expression) *ExpressionService {
 	return &ExpressionService{repo: repo}
 }
 
-func (s *ExpressionService) GetExpression(uuid uuid.UUID) (models.ExpressionToRead, error) {
-	return s.repo.GetExpression(uuid)
+func (s *ExpressionService) GetExpression(uuid uuid.UUID, userId int) (models.ExpressionToRead, error) {
+	return s.repo.GetExpression(uuid, userId)
 }
 
-func (s *ExpressionService) GetExpressions(startIndex int, recordPerPage int) ([]models.ExpressionToRead, error) {
-	return s.repo.GetExpressions(startIndex, recordPerPage)
+func (s *ExpressionService) GetExpressions(startIndex int, recordPerPage int, userId int) ([]models.ExpressionToRead, error) {
+	return s.repo.GetExpressions(startIndex, recordPerPage, userId)
 }
 
-func (s *ExpressionService) CreateExpression(expression models.Expression) (uuid.UUID, error) {
-	return s.repo.CreateExpression(expression)
+func (s *ExpressionService) CreateExpression(expression models.ExpressionFromUser, userId int) (uuid.UUID, error) {
+	return s.repo.CreateExpression(expression, userId)
 }

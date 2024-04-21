@@ -21,9 +21,9 @@ func NewTaskPostgres(db *pgxpool.Pool) *TaskPostgres {
 
 func (r *TaskPostgres) GetTask(id string) (models.Expression, error) {
 	var expression models.Expression
-	query := fmt.Sprintf("SELECT * FROM %s WHERE work_state = $1 LIMIT 1", expressionTable)
+	query := fmt.Sprintf("SELECT id, expression, result, created_at, solved_at, work_state, computing_resource_id, user_id FROM %s WHERE work_state = $1 LIMIT 1", expressionTable)
 	row := r.db.QueryRow(context.TODO(), query, "in_queue")
-	if err := row.Scan(&expression.Id, &expression.Expr, &expression.Result, &expression.Created_at, &expression.Solved_at, &expression.Work_state, &expression.ComputingResourceId); err !=nil {
+	if err := row.Scan(&expression.Id, &expression.Expr, &expression.Result, &expression.Created_at, &expression.Solved_at, &expression.Work_state, &expression.ComputingResourceId, &expression.User_id); err !=nil {
 		return models.Expression{}, err
 	}
 	uuid, _ :=uuid.Parse(id)

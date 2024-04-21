@@ -8,8 +8,8 @@ import (
 	"github.com/sadreddinov/distributed_calculator/orchestrator/pkg/models"
 )
 
-
 // GetOperations godoc
+// @Security ApiKeyAuth
 // @Summary      Get time of operations
 // @Description  Get time of operations in seconds
 // @Tags         operations
@@ -31,6 +31,7 @@ func (h *Handler) GetOperations() gin.HandlerFunc {
 
 // UpdateOperations godoc
 // @Summary      Update operation time
+// @Security ApiKeyAuth
 // @Description  Update time of operations in seconds
 // @Tags         operations
 // @Accept       json

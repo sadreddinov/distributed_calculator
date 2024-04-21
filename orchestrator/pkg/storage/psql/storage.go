@@ -6,10 +6,15 @@ import (
 	"github.com/sadreddinov/distributed_calculator/orchestrator/pkg/models"
 )
 
+type Authorization interface {
+	CreateUser(user models.User) (int, error)
+	GetUser(username, password string) (models.User, error)
+}
+
 type Expression interface {
-	GetExpression(uuid uuid.UUID) (models.ExpressionToRead, error)
-	GetExpressions(startIndex int, recordPerPage int) ([]models.ExpressionToRead, error)
-	CreateExpression(expression models.Expression) (uuid.UUID, error)
+	GetExpression(uuid uuid.UUID, userId int) (models.ExpressionToRead, error)
+	GetExpressions(startIndex int, recordPerPage int, userId int) ([]models.ExpressionToRead, error)
+	CreateExpression(expression models.ExpressionFromUser, userId int) (uuid.UUID, error)
 }
 
 type ComputingResource interface {
@@ -25,6 +30,7 @@ type Task interface {
 }
 
 type Repository struct {
+	Authorization
 	Expression
 	ComputingResource
 	Task
@@ -32,6 +38,7 @@ type Repository struct {
 
 func NewRepository(db *pgxpool.Pool) *Repository {
 	return &Repository{
+		Authorization: NewAuthPostgres(db),
 		Expression:        NewExpressionPostgres(db),
 		ComputingResource: NewComputingResourcePostgres(db),
 		Task: NewTaskPostgres(db),
