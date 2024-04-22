@@ -22,10 +22,6 @@ db:
 ```sh
 DB_PASSWORD = your_password
 ```
-Запустить миграции
-```sh
-migrate -path ./schema -database 'YOUR_DATABASE_URL' up
-```
 Запускаем оркестратор
 ```sh
 go run .\cmd\main.go
@@ -43,7 +39,17 @@ UUID = new_uuid
 go run .\cmd\main.go
 ```
 ## Тестирование
-Для данного проекта я задокументировал API с помощью Swagger в swagger.json. А благодаря Swagger UI, которая реализована по end-pointу /swagger/index.html можно тестировать и отпралять различный запросы  оркестратору.
+Для данного проекта я задокументировал API с помощью Swagger в swagger.json. А благодаря Swagger UI, которая реализована по end-pointу /swagger/index.html можно тестировать и отпралять различный запросы  оркестратору. 
+### Алгоритм тестирования
+Сначала необходимо зарегистрировать пользователя
+![Image alt](./static/creating_account.png)
+Далее входим в аккаунт
+![Image alt](./static/login.png)
+Полученный токен записываем в окно Authorize в следующем формате: "Bearer <your_token>"
+![Image alt](./static/token.png)
+![Image alt](./static/authorization.png)
+После этого уже тестируем работу калькулятора 
+![Image alt](./static/test.png)
 Также можно тестировать с помощью Postman по следующим end-pointам
 ![Image alt](схема.png)
 
